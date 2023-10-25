@@ -1,35 +1,33 @@
 <?php include_once(__DIR__ . '/../Partials/Page/Head.phtml'); ?>
 
 <body>
-    <form action="" method="post">
-        <div>
-            <label for="language">Select a target language: </label>
-            <select name="language" id="language">
-                <?php
-                    // $languages = langues disponibles
-                    // $language = langue sélectionnée par l’utilisateur, récupérée depuis $_POST['language']
-                ?>
+    <div class="container">
+        <form action="" method="post">
+            <div class="form-group mb-4">
+                <label class="mb-1" for="language">Select a target language</label>
+                <select class="form-control" name="language" id="language">
                 <?php foreach ($languages as $languageOption) : ?>
                     <?php if (isset($language) && $languageOption === $language) : ?>
-                        <option selected="selected"><?= $languageOption ?></option>
+                <option selected="selected"><?= $languageOption ?></option>
                     <?php elseif ($languageOption === 'English') : ?>
                 <option selected="selected"><?= $languageOption ?></option>
                     <?php else : ?>
                 <option><?= $languageOption ?></option>
                     <?php endif ?>
                 <?php endforeach ?>
-            </select>
-        </div>
-        <?php if (isset($languageFalse) && $languageFalse) : ?>
-            <p>Select a language from the list</p>
-        <?php endif ?>
-        <div>
-            <label for="word-1">Word: </label>
-            <input type="text" name="word-1" id="word-1">
-        </div>
-        <?php if (isset($wordEmpty) && $wordEmpty) : ?>
-            <p>Word is empty</p>
-        <?php endif ?>
-        <button>Build my deck</button>
-    </form>
+                </select>
+                <?php if (isset($languageFalse) && $languageFalse) : ?>
+                <div class="alert alert-danger">Select a language from the list</div>
+                <?php endif ?>
+            </div>
+            <div class="form-group mb-4">
+                <label class="mb-1" for="word-1">Word</label>
+                <input class="form-control" type="text" name="word-1" id="word-1" placeholder="vorto">
+                <?php if (isset($wordEmpty) && $wordEmpty) : ?>
+                <div class="alert alert-danger">Word is empty</div>
+                <?php endif ?>
+            </div>
+            <button type="submit" class="btn btn-primary">Build my deck</button>
+        </form>
+    </div>
 </body>
