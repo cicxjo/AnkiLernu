@@ -63,6 +63,11 @@ class Form
         $this->render = new Render('Page');
     }
 
+    private function whitespace(string $string): bool
+    {
+        return ctype_space($string);
+    }
+
     public function show(): void
     {
         $vars = [
@@ -73,6 +78,19 @@ class Form
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!isset($_POST['language']) || !in_array($_POST['language'], $this->languages, true)) {
                 $vars['languageFalse'] = true;
+            }
+
+            $words = array_filter($_POST, function ($key) {
+                return preg_match('/^word-/', $key);
+            }, ARRAY_FILTER_USE_KEY);
+            $words = array_values($words);
+
+            if (empty($words)) {
+                $vars['wordEmpty'] = true;
+            }
+
+            if (count($words) === 1 && (empty($words[0]) || $this->whitespace($words[0]))) {
+                $vars['wordEmpty'] = true;
             }
         }
 

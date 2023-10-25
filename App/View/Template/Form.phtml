@@ -24,6 +24,9 @@
             <label for="word-1">Word: </label>
             <input type="text" name="word-1" id="word-1">
         </div>
+        <?php if (isset($wordEmpty) && $wordEmpty) : ?>
+            <p>Word is empty</p>
+        <?php endif ?>
         <button>Build my deck</button>
     </form>
 </body>
