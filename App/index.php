@@ -10,4 +10,5 @@ $router = new App\Model\Routing\Router();
 try {
     $router->run();
 } catch (App\Model\Exception\HTTPException $exception) {
+    (new App\Controller\HTTPError())->send($exception->getCode());
 }
