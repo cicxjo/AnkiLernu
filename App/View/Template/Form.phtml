@@ -1,0 +1,22 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $title ?></title>
+</head>
+<body>
+    <form action="" method="post">
+        <div>
+            <label for="language">Select a target language: </label>
+            <select name="language" id="language">
+                <?php foreach ($languages as $language) : ?>
+                    <?php if ($language === 'English') : ?>
+                <option selected="selected"><?= $language ?></option>
+                    <?php else : ?>
+                <option><?= $language ?></option>
+                    <?php endif ?>
+                <?php endforeach ?>
+            </select>
+        </div>
+        <button>Build my deck</button>
+    </form>
+</body>
