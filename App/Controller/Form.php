@@ -78,6 +78,8 @@ class Form
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!isset($_POST['language']) || !in_array($_POST['language'], $this->languages, true)) {
                 $vars['languageFalse'] = true;
+            } else {
+                $vars['language'] = $_POST['language'];
             }
 
             $words = array_filter($_POST, function ($key) {

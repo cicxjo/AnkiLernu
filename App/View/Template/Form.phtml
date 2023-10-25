@@ -8,11 +8,17 @@
         <div>
             <label for="language">Select a target language: </label>
             <select name="language" id="language">
-                <?php foreach ($languages as $language) : ?>
-                    <?php if ($language === 'English') : ?>
-                <option selected="selected"><?= $language ?></option>
+                <?php
+                    // $languages = langues disponibles
+                    // $language = langue sélectionnée par l’utilisateur, récupérée depuis $_POST['language']
+                ?>
+                <?php foreach ($languages as $languageOption) : ?>
+                    <?php if (isset($language) && $languageOption === $language) : ?>
+                        <option selected="selected"><?= $languageOption ?></option>
+                    <?php elseif ($languageOption === 'English') : ?>
+                <option selected="selected"><?= $languageOption ?></option>
                     <?php else : ?>
-                <option><?= $language ?></option>
+                <option><?= $languageOption ?></option>
                     <?php endif ?>
                 <?php endforeach ?>
             </select>
