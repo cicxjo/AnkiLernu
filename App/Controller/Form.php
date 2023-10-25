@@ -65,10 +65,18 @@ class Form
 
     public function show(): void
     {
+        $vars = [
+            'title' => 'Home',
+            'languages' => $this->languages,
+        ];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!isset($_POST['language']) || !in_array($_POST['language'], $this->languages, true)) {
+                $vars['languageFalse'] = true;
+            }
+        }
+
         $this->render->setTemplate('Form')
-                     ->process([
-                        'title' => 'Home',
-                        'languages' => $this->languages,
-                    ]);
+                     ->process($vars);
     }
 }

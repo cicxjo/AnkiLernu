@@ -6,7 +6,8 @@ require_once(__DIR__ . '/Autoloader.php');
 App\Autoloader::register();
 
 $router = new App\Model\Routing\Router();
-$router->addRoute('/', 'GET', ['App\Controller\Form', 'show']);
+$router->addRoute('/', 'GET', ['App\Controller\Form', 'show'])
+       ->addRoute('/', 'POST', ['App\Controller\Form', 'show']);
 
 try {
     $router->run();

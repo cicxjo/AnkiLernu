@@ -17,6 +17,9 @@
                 <?php endforeach ?>
             </select>
         </div>
+        <?php if (isset($languageFalse) && $languageFalse) : ?>
+            <p>Select a language from the list</p>
+        <?php endif ?>
         <button>Build my deck</button>
     </form>
 </body>
