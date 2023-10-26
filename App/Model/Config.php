@@ -17,6 +17,7 @@ class Config
         $this->database['name'] = $config['database']['name'];
         $this->database['user'] = $config['database']['user'];
         $this->database['password'] = $config['database']['password'];
+        $this->database['debug'] = $config['database']['debug'];
     }
 
     public function getDatabase(): array

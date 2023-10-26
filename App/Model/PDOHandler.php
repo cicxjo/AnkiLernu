@@ -11,26 +11,39 @@ use PDOStatement;
 class PDOHandler
 {
     private PDO $pdo;
+    private bool $debug;
 
     public function __construct()
     {
-        $config = (new Config())->getDatabase();
+        $db = (new Config())->getDatabase();
+
+        $this->debug = $db['debug'];
 
         $dsn = 'mysql:';
-        $dsn .= 'host='. $config['host'] . ';';
-        $dsn .= 'dbname=' . $config['name'] . ';';
+        $dsn .= 'host='. $db['host'] . ';';
+        $dsn .= 'dbname=' . $db['name'] . ';';
         $dsn .= 'charset=utf8mb4';
 
         try {
             $this->pdo = new PDO(
                 $dsn,
-                $config['user'],
-                $config['password'],
+                $db['user'],
+                $db['password'],
                 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
             );
         } catch (PDOException $exception) {
-            echo('<pre>' . var_dump($exception->getMessage()) . '</pre>');
-            die();
+            $this->debug($exception->getMessage());
+        }
+    }
+
+    public function debug(mixed ...$vars): void
+    {
+        if ($this->debug) {
+            foreach ($vars as $var) {
+                echo( '<pre>' . print_r($var, true) . '</pre>');
+            }
+
+            exit();
         }
     }
 
