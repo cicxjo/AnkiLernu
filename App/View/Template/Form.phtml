@@ -1,3 +1,4 @@
+<?php $language = $selectedLanguage ?? 'en'; ?>
 <?php include_once(__DIR__ . '/../Partials/Page/Head.phtml'); ?>
 
 <body>
@@ -6,13 +7,11 @@
             <div class="form-group mb-4">
                 <label class="mb-1" for="language">Select a target language</label>
                 <select class="form-control" name="language" id="language">
-                <?php foreach ($languages as $languageOption) : ?>
-                    <?php if (isset($language) && $languageOption === $language) : ?>
-                <option selected="selected"><?= $languageOption ?></option>
-                    <?php elseif ($languageOption === 'English') : ?>
-                <option selected="selected"><?= $languageOption ?></option>
+                <?php foreach ($languages as $key => $value) : ?>
+                    <?php if ($key === $language) : ?>
+                    <option value="<?= $key ?>" selected="selected"><?= $value ?></option>
                     <?php else : ?>
-                <option><?= $languageOption ?></option>
+                    <option value="<?= $key ?>"><?= $value ?></option>
                     <?php endif ?>
                 <?php endforeach ?>
                 </select>

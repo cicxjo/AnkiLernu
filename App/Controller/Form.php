@@ -4,59 +4,12 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
+use App\Data\Languages;
 use App\Model\Render;
 
 class Form
 {
     private Render $render;
-    private array $languages = [
-        'Bahasa Indonesia',
-        'Català',
-        'Česky',
-        'Dansk',
-        'Deutsch',
-        'English',
-        'Español',
-        'Esperanto',
-        'Euskara',
-        'Français',
-        'Gaeilge',
-        'Gàidhlig',
-        'Hornjoserbsce',
-        'Hrvatski',
-        'Italiano',
-        'Kiswahili',
-        'Lietuvių',
-        'Magyar',
-        'Nederlands',
-        'Norsk bokmål',
-        'Polski',
-        'Português',
-        'Română',
-        'Runa Simi',
-        'Slovenčina',
-        'Slovenščina',
-        'Suomi',
-        'Svenska',
-        'Tagalog',
-        'Tiếng Việt',
-        'Türkçe',
-        'Ελληνικά',
-        'Български',
-        'Русский',
-        'Српски / srpski',
-        'Українська',
-        'עברית',
-        'اردو',
-        'العربية',
-        'فارسی',
-        'हिन्दी',
-        'ไทย',
-        '한국어',
-        '中文',
-        '日本語',
-        '简体中文',
-    ];
 
     public function __construct()
     {
@@ -72,14 +25,14 @@ class Form
     {
         $vars = [
             'title' => 'Home',
-            'languages' => $this->languages,
+            'languages' => Languages::$all,
         ];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!isset($_POST['language']) || !in_array($_POST['language'], $this->languages, true)) {
+            if (!isset($_POST['language']) || !key_exists($_POST['language'], Languages::$all)) {
                 $vars['languageFalse'] = true;
             } else {
-                $vars['language'] = $_POST['language'];
+                $vars['selectedLanguage'] = $_POST['language'];
             }
 
             $words = array_filter($_POST, function ($key) {
