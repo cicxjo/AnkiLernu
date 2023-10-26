@@ -14,11 +14,18 @@ class PDOHandler
 
     public function __construct()
     {
+        $config = (new Config())->getDatabase();
+
+        $dsn = 'mysql:';
+        $dsn .= 'host='. $config['host'] . ';';
+        $dsn .= 'dbname=' . $config['name'] . ';';
+        $dsn .= 'charset=utf8mb4';
+
         try {
             $this->pdo = new PDO(
-                'mysql:host=localhost;dbname=ankilernu;charset=utf8mb4',
-                'root',
-                'toor',
+                $dsn,
+                $config['user'],
+                $config['password'],
                 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
             );
         } catch (PDOException $exception) {
