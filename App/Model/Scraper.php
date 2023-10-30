@@ -10,9 +10,11 @@ class Scraper
     private static ?self $instance = null;
     private string $word;
     private array $curlOptions;
+    private string $token;
 
     private function __construct()
     {
+        $this->token = base64_encode(random_bytes(35));
     }
 
     public static function getInstance(): self
@@ -73,14 +75,12 @@ class Scraper
 
     public function execute(string $word, string $language): string|ScraperException
     {
-        $token = base64_encode(random_bytes(35));
-
         $this->word = $word;
         $this->curlOptions = [
             CURLOPT_URL => 'https://lernu.net/vortaro',
             CURLOPT_POST => true,
-            CURLOPT_COOKIE => 'YII_CSRF_TOKEN=' . $token,
-            CURLOPT_POSTFIELDS => 'YII_CSRF_TOKEN=' . $token
+            CURLOPT_COOKIE => 'YII_CSRF_TOKEN=' . $this->token,
+            CURLOPT_POSTFIELDS => 'YII_CSRF_TOKEN=' . $this->token
                 . '&DictWords[dictionary]=eo|' . $language
                 . '&DictWords[word]=' . $word,
             CURLOPT_RETURNTRANSFER => true,
