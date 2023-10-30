@@ -7,23 +7,21 @@ use DOMDocument;
 
 class Scraper
 {
+    private static ?self $instance = null;
     private string $word;
     private array $curlOptions;
 
-    public function __construct(string $word, string $language)
+    private function __construct()
     {
-        $token = base64_encode(random_bytes(35));
+    }
 
-        $this->word = $word;
-        $this->curlOptions = [
-            CURLOPT_URL => 'https://lernu.net/vortaro',
-            CURLOPT_POST => true,
-            CURLOPT_COOKIE => 'YII_CSRF_TOKEN=' . $token,
-            CURLOPT_POSTFIELDS => 'YII_CSRF_TOKEN=' . $token
-                . '&DictWords[dictionary]=eo|' . $language
-                . '&DictWords[word]=' . $word,
-            CURLOPT_RETURNTRANSFER => true,
-        ];
+    public static function getInstance(): self
+    {
+        if (!self::$instance instanceof self) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
     private function fetch(): string|false
@@ -73,8 +71,21 @@ class Scraper
         return $translation;
     }
 
-    public function execute(): string|ScraperException
+    public function execute(string $word, string $language): string|ScraperException
     {
+        $token = base64_encode(random_bytes(35));
+
+        $this->word = $word;
+        $this->curlOptions = [
+            CURLOPT_URL => 'https://lernu.net/vortaro',
+            CURLOPT_POST => true,
+            CURLOPT_COOKIE => 'YII_CSRF_TOKEN=' . $token,
+            CURLOPT_POSTFIELDS => 'YII_CSRF_TOKEN=' . $token
+                . '&DictWords[dictionary]=eo|' . $language
+                . '&DictWords[word]=' . $word,
+            CURLOPT_RETURNTRANSFER => true,
+        ];
+
         try {
             $data = $this->fetch();
             $data = $this->parse($data);
