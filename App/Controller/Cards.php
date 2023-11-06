@@ -13,6 +13,7 @@ use App\Model\Scraper;
 class Cards
 {
     private Render $render;
+    private int $cacheTime = 7 * 24 * 60 * 60;
 
     public function __construct()
     {
@@ -31,18 +32,26 @@ class Cards
         foreach ($words as $word) {
             $cardEntity = $cardManager->get($language, $word);
 
-            if ($cardEntity) {
-                $deck[] = $cardEntity;
-            } else {
-                try {
+            try {
+                if ($cardEntity) {
+                    $currentTime = time();
+                    $cardDate = strtotime($cardEntity->getModifiedAt());
+
+                    if (($cardDate - $currentTime) > $this->cacheTime) {
+                        $translation = $scraper->execute($word, $language, $token);
+                        $cardEntity = (new CardEntity())->setWord($word)
+                                                    ->setTranslation($translation);
+                        $cardManager->update($language, $word, $translation);
+                    }
+                } else {
                     $translation = $scraper->execute($word, $language, $token);
                     $cardEntity = (new CardEntity())->setWord($word)
                                                 ->setTranslation($translation);
-                    $deck[] = $cardEntity;
                     $cardManager->insert($language, $cardEntity);
-                } catch (ScraperException $exception) {
-                    $deck[] = $exception;
                 }
+                $deck[] = $cardEntity;
+            } catch (ScraperException $exception) {
+                $deck[] = $exception;
             }
         }
 
@@ -58,6 +67,6 @@ class Cards
             ARRAY_FILTER_USE_KEY
         ));
 
-        $card = $this->getCards($words, $language);
+        var_dump($this->getCards($words, $language));
     }
 }
