@@ -73,7 +73,7 @@ class Scraper
         return $translation;
     }
 
-    public function execute(string $word, string $language): string|ScraperException
+    public function execute(string $word, string $language): string
     {
         $this->word = $word;
         $this->curlOptions = [
@@ -86,12 +86,7 @@ class Scraper
             CURLOPT_RETURNTRANSFER => true,
         ];
 
-        try {
-            $data = $this->fetch();
-            $data = $this->parse($data);
-        } catch (ScraperException $exception) {
-            return $exception;
-        }
+        $data = $this->parse($this->fetch());
 
         return $data;
     }
