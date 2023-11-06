@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Model\Entity\Card as CardEntity;
 use App\Model\Exception\ScraperException;
+use App\Model\Manager\Card as CardManager;
 use App\Model\Render;
 use App\Model\Scraper;
 
@@ -20,19 +21,28 @@ class Cards
 
     private function getCards(array $words, $language): array
     {
+        $cardManager = new CardManager();
+
         $token = base64_encode(random_bytes(35));
         $scraper = Scraper::getInstance();
 
         $deck = [];
 
         foreach ($words as $word) {
-            try {
-                $translation = $scraper->execute($word, $language, $token);
-                $cardEntity = (new CardEntity())->setWord($word)
-                                            ->setTranslation($translation);
+            $cardEntity = $cardManager->get($language, $word);
+
+            if ($cardEntity) {
                 $deck[] = $cardEntity;
-            } catch (ScraperException $exception) {
-                $deck[] = $exception;
+            } else {
+                try {
+                    $translation = $scraper->execute($word, $language, $token);
+                    $cardEntity = (new CardEntity())->setWord($word)
+                                                ->setTranslation($translation);
+                    $deck[] = $cardEntity;
+                    $cardManager->insert($language, $cardEntity);
+                } catch (ScraperException $exception) {
+                    $deck[] = $exception;
+                }
             }
         }
 
