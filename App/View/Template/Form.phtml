@@ -3,28 +3,22 @@
 
 <body>
     <div class="container">
-        <form action="" method="post">
+        <form action="/generate" method="post">
             <div class="form-group mb-4">
                 <label class="mb-1" for="language">Select a target language</label>
                 <select class="form-control" name="language" id="language">
                 <?php foreach ($languages as $key => $value) : ?>
-                    <?php if ($key === $language) : ?>
+                    <?php if ($key === 'en') : ?>
                     <option value="<?= $key ?>" selected="selected"><?= $value ?></option>
                     <?php else : ?>
                     <option value="<?= $key ?>"><?= $value ?></option>
                     <?php endif ?>
                 <?php endforeach ?>
                 </select>
-                <?php if (isset($languageFalse) && $languageFalse) : ?>
-                <div class="alert alert-danger">Select a language from the list</div>
-                <?php endif ?>
             </div>
             <div class="form-group mb-4">
                 <label class="mb-1" for="word-1">Word</label>
                 <input class="form-control" type="text" name="word-1" id="word-1" placeholder="vorto">
-                <?php if (isset($wordEmpty) && $wordEmpty) : ?>
-                <div class="alert alert-danger">Word is empty</div>
-                <?php endif ?>
             </div>
             <button type="submit" class="btn btn-primary">Build my deck</button>
         </form>
