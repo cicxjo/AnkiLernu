@@ -17,7 +17,7 @@ class Cards
 
     public function __construct()
     {
-        $this->render = new Render('Page');
+        $this->render = new Render('Raw');
     }
 
     private function getCards(array $words, $language): array
@@ -35,13 +35,14 @@ class Cards
             try {
                 if ($cardEntity) {
                     $currentTime = time();
-                    $cardDate = strtotime($cardEntity->getModifiedAt());
+                    $cardDate = strtotime($cardEntity->getSyncAt());
 
                     if (($cardDate - $currentTime) > $this->cacheTime) {
                         $translation = $scraper->execute($word, $language, $token);
                         $cardEntity = (new CardEntity())->setWord($word)
-                                                    ->setTranslation($translation);
-                        $cardManager->update($language, $word, $translation);
+                                                    ->setTranslation($translation)
+                                                    ->setSyncAt(date('Y-m-d H:i:s'));
+                        $cardManager->update($cardEntity, $language);
                     }
                 } else {
                     $translation = $scraper->execute($word, $language, $token);
@@ -67,6 +68,10 @@ class Cards
             ARRAY_FILTER_USE_KEY
         ));
 
-        var_dump($this->getCards($words, $language));
+        // header('Content-Type: text/plain');
+        header('Content-Type: text/tab-separated-values');
+
+        $this->render->setTemplate('Tsv')
+                     ->process(['cards' => $this->getCards($words, $language)]);
     }
 }

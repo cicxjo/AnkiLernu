@@ -11,9 +11,17 @@ use Exception;
  */
 class ScraperException extends Exception
 {
-    public function __construct(string $message, int $code = 0)
+    private string $word;
+
+    public function __construct(string $message, string $word, int $code = 0)
     {
         $this->message = $message;
+        $this->word = $word;
         $this->code = $code;
+    }
+
+    public function getWord(): string
+    {
+        return $this->word;
     }
 }

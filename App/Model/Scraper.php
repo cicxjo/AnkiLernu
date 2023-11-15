@@ -61,12 +61,12 @@ class Scraper
             $word = trim($word);
             $translation = trim($translation);
         } else {
-            throw new ScraperException('Error: parsing HTML from Lernu.');
+            throw new ScraperException('Error: parsing HTML from Lernu.', $this->word);
             return false;
         }
 
         if ($word !== $this->word) {
-            throw new ScraperException('Error: Lernu has trouble guessing the word.');
+            throw new ScraperException('Error: Lernu has trouble guessing the word.', $this->word);
             return false;
         }
 

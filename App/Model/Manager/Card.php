@@ -55,7 +55,7 @@ class Card
         }
     }
 
-    public function update(string $language, string $word, string $translation): void
+    public function update(CardEntity $cardEntity, string $language): void
     {
         $sql = <<<HEREDOC
         UPDATE {$language}
@@ -64,8 +64,9 @@ class Card
         HEREDOC;
 
         $values = [
-            'word' => $word,
-            'translation' => $translation
+            'word' => $cardEntity->getWord(),
+            'translation' => $cardEntity->getTranslation(),
+            'sync_at' => $cardEntity->getSyncAt(),
         ];
 
         try {
