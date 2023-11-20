@@ -9,6 +9,8 @@ use App\Model\Exception\ScraperException;
 use App\Model\Manager\Card as CardManager;
 use App\Model\Render;
 use App\Model\Scraper;
+use DateTime;
+use DateTimeZone;
 
 class Cards
 {
@@ -17,7 +19,7 @@ class Cards
 
     public function __construct()
     {
-        $this->render = new Render('Page');
+        $this->render = new Render('Raw');
     }
 
     private function getCards(array $words, $language): array
@@ -34,14 +36,16 @@ class Cards
 
             try {
                 if ($cardEntity) {
-                    $currentTime = time();
-                    $cardDate = strtotime($cardEntity->getModifiedAt());
+                    $currentDate = (new DateTime())->setTimezone(new DateTimeZone('UTC'))
+                                                   ->format('Y-m-d H:i:s');
+                    $cardSyncDate = $cardEntity->getSyncAt();
 
-                    if (($cardDate - $currentTime) > $this->cacheTime) {
+                    if (strtotime($currentDate) > strtotime($cardSyncDate) + $this->cacheTime) {
                         $translation = $scraper->execute($word, $language, $token);
                         $cardEntity = (new CardEntity())->setWord($word)
-                                                    ->setTranslation($translation);
-                        $cardManager->update($language, $word, $translation);
+                                                    ->setTranslation($translation)
+                                                    ->setSyncAt($currentDate);
+                        $cardManager->update($cardEntity, $language);
                     }
                 } else {
                     $translation = $scraper->execute($word, $language, $token);
@@ -49,7 +53,7 @@ class Cards
                                                 ->setTranslation($translation);
                     $cardManager->insert($language, $cardEntity);
                 }
-                $deck[] = $cardEntity;
+                    $deck[] = $cardEntity;
             } catch (ScraperException $exception) {
                 $deck[] = $exception;
             }
@@ -67,6 +71,10 @@ class Cards
             ARRAY_FILTER_USE_KEY
         ));
 
-        var_dump($this->getCards($words, $language));
+        header('Content-Type: text/plain');
+        // header('Content-Type: text/tab-separated-values');
+
+        $this->render->setTemplate('Tsv')
+                     ->process(['cards' => $this->getCards($words, $language)]);
     }
 }

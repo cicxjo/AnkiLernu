@@ -12,6 +12,7 @@ use PDOException;
 class Card
 {
     private PDOHandler $pdoHandler;
+    private string $table = 'cache';
 
     public function __construct()
     {
@@ -21,10 +22,10 @@ class Card
     public function get(string $language, string $word): ?CardEntity
     {
         $sql = <<<HEREDOC
-        SELECT * FROM {$language} WHERE word = :word
+        SELECT * FROM {$this->table} WHERE word = :word AND country_code = :country_code
         HEREDOC;
 
-        $values = [ 'word' => $word ];
+        $values = [ 'word' => $word, 'country_code' => $language ];
 
         try {
             $card = $this->pdoHandler->execute($sql, $values)
@@ -39,11 +40,12 @@ class Card
     public function insert(string $language, CardEntity $entity): void
     {
         $sql = <<<HEREDOC
-        INSERT INTO {$language} (word, translation)
-        VALUES (:word, :translation)
+        INSERT INTO {$this->table} (country_code, word, translation)
+        VALUES (:country_code, :word, :translation)
         HEREDOC;
 
         $values = [
+            'country_code' => $language,
             'word' => $entity->getWord(),
             'translation' => $entity->getTranslation()
         ];
@@ -55,17 +57,19 @@ class Card
         }
     }
 
-    public function update(string $language, string $word, string $translation): void
+    public function update(CardEntity $cardEntity, string $language): void
     {
         $sql = <<<HEREDOC
-        UPDATE {$language}
-        SET translation = :translation
-        WHERE word = :word
+        UPDATE {$this->table}
+        SET translation = :translation, sync_at = :sync_at
+        WHERE word = :word AND country_code = :country_code
         HEREDOC;
 
         $values = [
-            'word' => $word,
-            'translation' => $translation
+            'word' => $cardEntity->getWord(),
+            'translation' => $cardEntity->getTranslation(),
+            'sync_at' => $cardEntity->getSyncAt(),
+            'country_code' => $language,
         ];
 
         try {

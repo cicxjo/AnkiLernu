@@ -9,7 +9,8 @@ class Card
     private string $word;
     private string $translation;
     private string $inserted_at;
-    private string $modified_at;
+    private string $sync_at;
+    private string $country_code;
 
     public function getWord(): string
     {
@@ -47,14 +48,26 @@ class Card
         return $this;
     }
 
-    public function getModifiedAt(): string
+    public function getSyncAt(): string
     {
-        return $this->modified_at;
+        return $this->sync_at;
     }
 
-    public function setModifiedAt(string $modified_at): self
+    public function setSyncAt(string $sync_at): self
     {
-        $this->modified_at = $modified_at;
+        $this->sync_at = $sync_at;
+
+        return $this;
+    }
+
+    public function getCountryCode(): string
+    {
+        return $this->country_code;
+    }
+
+    public function setCountryCode(string $country_code): self
+    {
+        $this->country_code = $country_code;
 
         return $this;
     }
