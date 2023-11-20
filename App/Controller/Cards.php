@@ -4,7 +4,9 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
+use App\Data\Languages;
 use App\Model\Entity\Card as CardEntity;
+use App\Model\Exception\LanguageException;
 use App\Model\Exception\ScraperException;
 use App\Model\Manager\Card as CardManager;
 use App\Model\Render;
@@ -22,6 +24,11 @@ class Cards
         $this->render = new Render('Raw');
     }
 
+    private function languageExists()
+    {
+        return isset($_POST['language']) && key_exists($_POST['language'], Languages::$all);
+    }
+
     private function getCards(array $words, $language): array
     {
         $cardManager = new CardManager();
@@ -31,32 +38,37 @@ class Cards
 
         $deck = [];
 
-        foreach ($words as $word) {
-            $cardEntity = $cardManager->get($language, $word);
+        if ($this->languageExists()) {
+            foreach ($words as $word) {
+                $cardEntity = $cardManager->get($language, $word);
 
-            try {
-                if ($cardEntity) {
-                    $currentDate = (new DateTime())->setTimezone(new DateTimeZone('UTC'))
-                                                   ->format('Y-m-d H:i:s');
-                    $cardSyncDate = $cardEntity->getSyncAt();
+                try {
+                    if ($cardEntity) {
+                        $currentDate = (new DateTime())->setTimezone(new DateTimeZone('UTC'))
+                                                       ->format('Y-m-d H:i:s');
+                        $cardSyncDate = $cardEntity->getSyncAt();
 
-                    if (strtotime($currentDate) > strtotime($cardSyncDate) + $this->cacheTime) {
+                        if (strtotime($currentDate) > strtotime($cardSyncDate) + $this->cacheTime) {
+                            $translation = $scraper->execute($word, $language, $token);
+                            $cardEntity = (new CardEntity())->setWord($word)
+                                                        ->setTranslation($translation)
+                                                        ->setSyncAt($currentDate);
+                            $cardManager->update($cardEntity, $language);
+                        }
+                    } else {
                         $translation = $scraper->execute($word, $language, $token);
                         $cardEntity = (new CardEntity())->setWord($word)
-                                                    ->setTranslation($translation)
-                                                    ->setSyncAt($currentDate);
-                        $cardManager->update($cardEntity, $language);
+                                                    ->setTranslation($translation);
+                        $cardManager->insert($language, $cardEntity);
                     }
-                } else {
-                    $translation = $scraper->execute($word, $language, $token);
-                    $cardEntity = (new CardEntity())->setWord($word)
-                                                ->setTranslation($translation);
-                    $cardManager->insert($language, $cardEntity);
+                        $deck[] = $cardEntity;
+                } catch (ScraperException $exception) {
+                    $deck[] = $exception;
                 }
-                    $deck[] = $cardEntity;
-            } catch (ScraperException $exception) {
-                $deck[] = $exception;
             }
+        } else {
+            $exception = new LanguageException();
+            $deck[] = $exception;
         }
 
         return $deck;
