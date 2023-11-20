@@ -10,6 +10,7 @@ class Card
     private string $translation;
     private string $inserted_at;
     private string $sync_at;
+    private string $country_code;
 
     public function getWord(): string
     {
@@ -55,6 +56,18 @@ class Card
     public function setSyncAt(string $sync_at): self
     {
         $this->sync_at = $sync_at;
+
+        return $this;
+    }
+
+    public function getCountryCode(): string
+    {
+        return $this->country_code;
+    }
+
+    public function setCountryCode(string $country_code): self
+    {
+        $this->country_code = $country_code;
 
         return $this;
     }

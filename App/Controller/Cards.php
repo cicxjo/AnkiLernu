@@ -9,6 +9,8 @@ use App\Model\Exception\ScraperException;
 use App\Model\Manager\Card as CardManager;
 use App\Model\Render;
 use App\Model\Scraper;
+use DateTime;
+use DateTimeZone;
 
 class Cards
 {
@@ -34,14 +36,15 @@ class Cards
 
             try {
                 if ($cardEntity) {
-                    $currentTime = time();
-                    $cardDate = strtotime($cardEntity->getSyncAt());
+                    $currentDate = (new DateTime())->setTimezone(new DateTimeZone('UTC'))
+                                                   ->format('Y-m-d H:i:s');
+                    $cardSyncDate = $cardEntity->getSyncAt();
 
-                    if (($cardDate - $currentTime) > $this->cacheTime) {
+                    if (strtotime($currentDate) > strtotime($cardSyncDate) + $this->cacheTime) {
                         $translation = $scraper->execute($word, $language, $token);
                         $cardEntity = (new CardEntity())->setWord($word)
                                                     ->setTranslation($translation)
-                                                    ->setSyncAt(date('Y-m-d H:i:s'));
+                                                    ->setSyncAt($currentDate);
                         $cardManager->update($cardEntity, $language);
                     }
                 } else {
@@ -50,7 +53,7 @@ class Cards
                                                 ->setTranslation($translation);
                     $cardManager->insert($language, $cardEntity);
                 }
-                $deck[] = $cardEntity;
+                    $deck[] = $cardEntity;
             } catch (ScraperException $exception) {
                 $deck[] = $exception;
             }
@@ -68,8 +71,8 @@ class Cards
             ARRAY_FILTER_USE_KEY
         ));
 
-        // header('Content-Type: text/plain');
-        header('Content-Type: text/tab-separated-values');
+        header('Content-Type: text/plain');
+        // header('Content-Type: text/tab-separated-values');
 
         $this->render->setTemplate('Tsv')
                      ->process(['cards' => $this->getCards($words, $language)]);
