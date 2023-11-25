@@ -6,7 +6,6 @@ namespace App\Controller;
 
 use App\Data\Languages;
 use App\Model\Entity\Card as CardEntity;
-use App\Model\Exception\LanguageException;
 use App\Model\Exception\ScraperException;
 use App\Model\Manager\Card as CardManager;
 use App\Model\Render;
@@ -18,6 +17,7 @@ class Cards
 {
     private Render $render;
     private int $cacheTime = 7 * 24 * 60 * 60;
+    private bool $languageIsValid;
 
     public function __construct()
     {
@@ -39,6 +39,8 @@ class Cards
         $deck = [];
 
         if ($this->languageExists()) {
+            $this->languageIsValid = true;
+
             foreach ($words as $word) {
                 $cardEntity = $cardManager->get($language, $word);
 
@@ -67,8 +69,7 @@ class Cards
                 }
             }
         } else {
-            $exception = new LanguageException();
-            $deck[] = $exception;
+            $this->languageIsValid = false;
         }
 
         return $deck;
@@ -87,6 +88,9 @@ class Cards
         // header('Content-Type: text/tab-separated-values');
 
         $this->render->setTemplate('Tsv')
-                     ->process(['cards' => $this->getCards($words, $language)]);
+                     ->process([
+                        'cards' => $this->getCards($words, $language),
+                        'languageIsValid' => $this->languageIsValid,
+                    ]);
     }
 }

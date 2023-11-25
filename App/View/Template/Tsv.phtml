@@ -1,7 +1,6 @@
 <?php
 // phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
 use App\Model\Entity\Card;
-use App\Model\Exception\LanguageException;
 use App\Model\Exception\ScraperException;
 ?>
 # Has autem provincias, quas Orontes ambiens amnis imosque pedes
@@ -10,13 +9,16 @@ use App\Model\Exception\ScraperException;
 # dicioni Romanae coniunxit.
 # Explain here how to import this deck into Anki.
 # See: https://docs.ankiweb.net/importing/text-files.html
+
+<?php if ($languageIsValid) : ?>
 <?php foreach ($cards as $card) : ?>
 <?= PHP_EOL ?>
 <?php if ($card instanceof Card) : ?>
 <?= $card->getWord() . "\t" . $card->getTranslation() ?>
 <?php elseif ($card instanceof ScraperException) : ?>
 <?= '# ' . $card->getWord() . ' -- ' . $card->getMessage() ?>
-<?php elseif ($card instanceof LanguageException) : ?>
-<?= '# ' . $card->getMessage() ?>
 <?php endif ?>
-<?php endforeach;
+<?php endforeach ?>
+<?php else : ?>
+# Error: Language is invalid!
+<?php endif ?>
