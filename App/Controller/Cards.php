@@ -42,6 +42,12 @@ class Cards
             $this->languageIsValid = true;
 
             foreach ($words as $word) {
+                if (empty($word) || ctype_space($word)) {
+                    continue;
+                } else {
+                    $word = trim($word);
+                }
+
                 $cardEntity = $cardManager->get($language, $word);
 
                 try {
