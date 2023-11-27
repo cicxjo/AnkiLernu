@@ -1,5 +1,4 @@
-// location.origin;
-const website = location.protocol.concat('//').concat(location.host);
+const website = location.protocol.concat('//').concat(location.host); // or location.origin
 const url = website.concat('/field/word');
 
 const buttonAddInputElt = document.getElementById('btn-add-input');
