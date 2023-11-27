@@ -26,4 +26,10 @@ class Form
         $this->render->setTemplate('Form')
                      ->process($vars);
     }
+
+    public function fieldWord()
+    {
+        $id = $_POST['id'];
+        $this->render->disableLayout()->setTemplate('WordField')->process(['id' => $id]);
+    }
 }

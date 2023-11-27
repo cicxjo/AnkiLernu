@@ -7,7 +7,7 @@ namespace App\Model;
 class Render
 {
     private string $path;
-    private string $layout;
+    private ?string $layout;
     private string $template;
 
     public function __construct(string $layout)
@@ -23,6 +23,13 @@ class Render
         return $this;
     }
 
+    public function disableLayout(): self
+    {
+        $this->layout = null;
+
+        return $this;
+    }
+
     public function process(array $vars = []): void
     {
         foreach ($vars as $key => $value) {
@@ -32,6 +39,11 @@ class Render
         ob_start();
         require_once($this->template);
         $vars = ob_get_clean();
-        require_once($this->layout);
+
+        if ($this->layout) {
+            require_once($this->layout);
+        } else {
+            echo $vars;
+        }
     }
 }

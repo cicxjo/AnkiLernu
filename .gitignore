@@ -1,3 +1,4 @@
 package-lock.json
 node_modules/
-static/
+App/static/custom.css
+App/static/custom.css.map
