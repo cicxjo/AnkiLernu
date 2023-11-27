@@ -6,39 +6,29 @@ namespace App\Model\Routing;
 
 class Route
 {
-    private string $path;
-    private string $method;
+    private string $resource;
+    private array $methods;
     private array $callable;
 
-    public function __construct(string $path, string $method, array $callable)
+    public function __construct(string $path, array $method, array $callable)
     {
-        $this->path = $path;
-        $this->method = $method;
+        $this->resource = $path;
+        $this->methods = $method;
         $this->callable = $callable;
     }
 
-    public function getPath(): string
+    public function getResource(): string
     {
-        return $this->path;
+        return $this->resource;
     }
-
-    public function getMethod(): string
+ 
+    public function getMethods(): array
     {
-        return $this->method;
+        return $this->methods;
     }
 
     public function getCallable(): array
     {
         return $this->callable;
-    }
-
-    public function call(): void
-    {
-        call_user_func([new $this->callable[0], $this->callable[1]]);
-    }
-
-    public function match(string $path): bool
-    {
-        return $path === $this->path;
     }
 }
