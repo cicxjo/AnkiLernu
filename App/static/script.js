@@ -1,10 +1,12 @@
+// location.origin;
+const website = location.protocol.concat('//').concat(location.host);
+const url = website.concat('/field/word');
+
 const buttonAddInputElt = document.getElementById('btn-add-input');
 const inputsWrapperElt = document.getElementById('inputs-wrapper');
 let inputId = 0;
 
 const fetchInsertNextInputElement = async () => {
-  const url = 'http://ankilernu.fr/field/word';
-
   const data = new URLSearchParams()
   data.append('id', inputId++);
 
