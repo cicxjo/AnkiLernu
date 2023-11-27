@@ -16,11 +16,15 @@
                 <?php endforeach ?>
                 </select>
             </div>
-            <div class="form-group mb-4">
-                <label class="mb-1" for="word-1">Word</label>
-                <input class="form-control" type="text" name="word-1" id="word-1" placeholder="vorto">
+            <div id="inputs-wrapper">
+                <div class="form-group mb-4">
+                    <label class="mb-1" for="word-1">Word</label>
+                    <input class="form-control" type="text" name="word-1" id="word-1" placeholder="vorto">
+                </div>
             </div>
+            <button id="btn-add-input" class="btn btn-secondary">Add a word</button>
             <button type="submit" class="btn btn-primary">Build my deck</button>
         </form>
     </div>
+    <?php include_once(__DIR__ . '/../Partials/Page/Js.phtml'); ?>
 </body>

@@ -10,6 +10,7 @@ class HTTPError
 {
     private Render $render;
     private array $codes = [
+        400 => 'Bad Request',
         404 => 'Not Found',
         405 => 'Method Not Allowed',
     ];
