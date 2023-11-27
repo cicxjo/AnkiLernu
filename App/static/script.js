@@ -15,15 +15,13 @@ const fetchInsertNextInputElement = async () => {
     body: data,
   };
 
-  await fetch(url, payload)
-    .then(response => { return response.text(); })
-    .then(text => {
-      const parser = new DOMParser();
-      const tmpDocument = parser.parseFromString(text, 'text/html');
-      const inputWrapperElt = tmpDocument.getElementsByClassName('input-wrapper')[0];
-      inputsWrapperElt.append(inputWrapperElt);
-    });
-  };
+  const response = await fetch(url, payload);
+  const text = await response.text();
+  const parser = new DOMParser();
+  const tmpDocument = parser.parseFromString(text, 'text/html');
+  const inputWrapperElt = tmpDocument.getElementsByClassName('input-wrapper')[0];
+  inputsWrapperElt.append(inputWrapperElt);
+};
 
 buttonAddInputElt.addEventListener('click', event => {
   fetchInsertNextInputElement();
