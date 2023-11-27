@@ -6,8 +6,10 @@ const inputsWrapperElt = document.getElementById('inputs-wrapper');
 let inputId = 0;
 
 const fetchInsertNextInputElement = async () => {
+  inputId++;
+
   const data = new URLSearchParams()
-  data.append('id', inputId++);
+  data.append('id', inputId);
 
   const payload = {
     method: 'POST',
