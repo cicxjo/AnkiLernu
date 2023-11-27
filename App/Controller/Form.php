@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Controller;
 
 use App\Data\Languages;
+use App\Model\Exception\HTTPException;
 use App\Model\Render;
 
 class Form
@@ -29,7 +30,10 @@ class Form
 
     public function fieldWord()
     {
-        $id = $_POST['id'];
-        $this->render->disableLayout()->setTemplate('WordField')->process(['id' => $id]);
+        isset($_POST['id']) && ctype_digit($_POST['id'])
+            ? $this->render->disableLayout()
+                           ->setTemplate('WordField')
+                           ->process(['id' => $_POST['id']])
+            : throw new HTTPException(400);
     }
 }
