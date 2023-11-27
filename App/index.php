@@ -6,9 +6,9 @@ require_once(__DIR__ . '/Autoloader.php');
 App\Autoloader::register();
 
 $router = new App\Model\Routing\Router();
-$router->addRoute('/', 'GET', ['App\Controller\Form', 'show'])
-       ->addRoute('/deck.tsv', 'POST', ['App\Controller\Cards', 'generate'])
-       ->addRoute('/field/word', 'POST', ['App\Controller\Form', 'fieldWord']);
+$router->addRoute('/', ['GET'], ['App\Controller\Form', 'show'])
+       ->addRoute('/deck.tsv', ['POST'], ['App\Controller\Cards', 'generate'])
+       ->addRoute('/field/word', ['POST', 'GET'], ['App\Controller\Form', 'fieldWord']);
 
 try {
     $router->run();
