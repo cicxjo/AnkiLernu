@@ -24,7 +24,8 @@ class Form
         $statistics = (new StatisticManager())->get();
 
         $vars = [
-            'title' => 'Home',
+            'title' => 'AnkiLernu — Your personal Esperanto learning companion',
+            'h1' => 'AnkiLernu',
             'languages' => Languages::$all,
             'statistics' => $statistics,
         ];
