@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Data\Languages;
 use App\Model\Exception\HTTPException;
+use App\Model\Manager\Statistic as StatisticManager;
 use App\Model\Render;
 
 class Form
@@ -19,9 +20,13 @@ class Form
 
     public function show(): void
     {
+
+        $statistics = (new StatisticManager())->get();
+
         $vars = [
             'title' => 'Home',
             'languages' => Languages::$all,
+            'statistics' => $statistics,
         ];
 
         $this->render->setTemplate('Form')

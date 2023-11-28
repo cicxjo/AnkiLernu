@@ -15,6 +15,14 @@
                 and generates a deck for you.
             </p>
         </div>
+        <?php if ($statistics['translation'] > 0) : ?>
+        <div class="alert alert-info mb-4">
+            Currently, <?= $statistics['translation'] ?> translation<?= $statistics['translation'] > 1 ? 's' : '' ?>
+            and
+            <?= $statistics['country_code'] ?> language<?= $statistics['country_code'] > 1 ? 's' : '' ?>
+            are cached in the database.
+        </div>
+        <?php endif ?>
         <div class="alert alert-light mb-4">
             <b>Usage:</b>
             <ul>
