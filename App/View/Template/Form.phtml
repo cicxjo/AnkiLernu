@@ -2,7 +2,7 @@
 <?php include_once(__DIR__ . '/../Partials/Page/Head.phtml'); ?>
 
 <body>
-    <header>
+    <header class="mb-4">
         <div class="bg-primary-subtle p-3">
             <div class="container">
                 <h1 >AnkiLernu</h1>
@@ -10,47 +10,46 @@
         </div>
     </header>
     <div class="container">
-        <form action="/deck.tsv" method="post">
-            <div>
-                <p>
-                    <b>Ankilernu</b> is your personal <a href="https://en.wikipedia.org/wiki/Esperanto">Esperanto</a>
-                    learning companion. You’ve started learning Esperanto and you find it tedious to build your
-                    <a href="https://apps.ankiweb.net/">Anki</a> deck.
-                </p>
-                <p>
-                    Ankilernu retrieves vocabulary from <a href="https://lernu.net/vortaro">Lernu!’s dictionary</a>
-                    and generates a deck for you.
-                </p>
-            </div>
-
-            <div class="alert alert-light">
-                <b>Usage:</b>
-                <ul>
-                    <li>Ankilernu’s goal is to be a daily learning companion, allowing you to generate cards for every
-                        new word you encounter.</li>
-                    <li>Words and translations are cached on the server for 30 days.</li>
-                </ul>
-            </div>
-            <div class="alert alert-warning">
-                <b>Limitations:</b>
-                <ul>
-                    <li>
-                        Target languages are limited to those supported by Lernu!.
-                    </li>
-                    <li>
-                        Not all words are in the dictionary. Use the simplest form instead.
-                        <br>
-                        If you ask for a word with a complex structure, it’s likely that the word
-                        isn’t in the dictionary. If you ask for a conjugated verb, Lernu! will return
-                        the infinitive. In both cases, Ankilernu will display an error.
-                    </li>
-                    <li>
-                        Use whole words. If you ask for <i>amik</i>, Lernu! will return <i>amika</i>,
-                        <i>amike</i>, <i>amiki</i>, <i>amiko</i> and <i>amikaro</i>. Ankilernu can’t guess
-                        which word you want.
-                    </li>
-                </ul>
-            </div>
+        <div class="mb-4">
+            <p>
+                <b>Ankilernu</b> is your personal <a href="https://en.wikipedia.org/wiki/Esperanto">Esperanto</a>
+                learning companion. You’ve started learning Esperanto and you find it tedious to build your
+                <a href="https://apps.ankiweb.net/">Anki</a> deck.
+            </p>
+            <p>
+                Ankilernu retrieves vocabulary from <a href="https://lernu.net/vortaro">Lernu!’s dictionary</a>
+                and generates a deck for you.
+            </p>
+        </div>
+        <div class="alert alert-light mb-4">
+            <b>Usage:</b>
+            <ul>
+                <li>Ankilernu’s goal is to be a daily learning companion, allowing you to generate cards for every
+                    new word you encounter.</li>
+                <li>Words and translations are cached on the server for 30 days.</li>
+            </ul>
+        </div>
+        <div class="alert alert-warning mb-4">
+            <b>Limitations:</b>
+            <ul>
+                <li>
+                    Target languages are limited to those supported by Lernu!.
+                </li>
+                <li>
+                    Not all words are in the dictionary. Use the simplest form instead.
+                    <br>
+                    If you ask for a word with a complex structure, it’s likely that the word
+                    isn’t in the dictionary. If you ask for a conjugated verb, Lernu! will return
+                    the infinitive. In both cases, Ankilernu will display an error.
+                </li>
+                <li>
+                    Use whole words. If you ask for <i>amik</i>, Lernu! will return <i>amika</i>,
+                    <i>amike</i>, <i>amiki</i>, <i>amiko</i> and <i>amikaro</i>. Ankilernu can’t guess
+                    which word you want.
+                </li>
+            </ul>
+        </div>
+        <form class="mb-4" action="/deck.tsv" method="post">
             <div class="form-group mb-4">
                 <h2>Target language</h2>
                 <select class="form-control" name="language" id="language">
@@ -63,7 +62,7 @@
                 <?php endforeach ?>
                 </select>
             </div>
-            <div id="inputs-wrapper">
+            <div id="inputs-wrapper" class="mb-4">
                 <h2>Cards</h2>
                 <div class="form-group mb-4">
                     <input class="form-control" type="text" name="word-0" id="word-0" placeholder="Esperanta vorto">
@@ -74,7 +73,7 @@
         </form>
     </div>
     <?php include_once(__DIR__ . '/../Partials/Page/Js.phtml'); ?>
-    <footer id="fixed-footer">
+    <footer id="fixed-footer" class="mt-4">
         <div class="bg-light text-center">
             <div class="container">
                 <div class="text-center p-3">
