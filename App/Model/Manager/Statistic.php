@@ -18,7 +18,7 @@ class Statistic
         $this->pdoHandler = new PDOHandler();
     }
 
-    public function get(): ?array
+    public function get(): array
     {
         $sql = <<<HEREDOC
         SELECT

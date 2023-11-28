@@ -33,7 +33,7 @@ class Form
                      ->process($vars);
     }
 
-    public function getWordField()
+    public function getWordField(): void
     {
         isset($_POST['id']) && ctype_digit($_POST['id'])
             ? $this->render->disableLayout()
