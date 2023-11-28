@@ -2,10 +2,50 @@
 <?php include_once(__DIR__ . '/../Partials/Page/Head.phtml'); ?>
 
 <body>
+<?php include_once(__DIR__ . '/../Partials/Page/Header.phtml'); ?>
     <div class="container">
-        <form action="/deck.tsv" method="post">
+        <div class="mb-4">
+            <p>
+                <b>Ankilernu</b> is your personal <a href="https://en.wikipedia.org/wiki/Esperanto">Esperanto</a>
+                learning companion. You have started learning Esperanto and you find it tedious to build your
+                <a href="https://apps.ankiweb.net/">Anki</a> deck.
+            </p>
+            <p>
+                Ankilernu retrieves vocabulary from <a href="https://lernu.net/vortaro">Lernu!’s dictionary</a>
+                and generates a deck for you.
+            </p>
+        </div>
+        <div class="alert alert-light mb-4">
+            <b>Usage:</b>
+            <ul>
+                <li>Ankilernu’s goal is to be a daily learning companion, allowing you to generate cards for every
+                    new word you encounter.</li>
+                <li>Words and translations are cached on the server for 30 days.</li>
+            </ul>
+        </div>
+        <div class="alert alert-warning mb-4">
+            <b>Limitations:</b>
+            <ul>
+                <li>
+                    Target languages are limited to those supported by Lernu!.
+                </li>
+                <li>
+                    Not all words are in the dictionary. Use the simplest form instead.
+                    <br>
+                    If you ask for a word with a complex structure, it is likely that the word
+                    is not in the dictionary. If you ask for a conjugated verb, Lernu! will return
+                    the infinitive. In both cases, Ankilernu will display an error.
+                </li>
+                <li>
+                    Use whole words. If you ask for <i>amik</i>, Lernu! will return <i>amika</i>,
+                    <i>amike</i>, <i>amiki</i>, <i>amiko</i> and <i>amikaro</i>. Ankilernu cannot guess
+                    which word you want.
+                </li>
+            </ul>
+        </div>
+        <form class="mb-4" action="/deck.tsv" method="post">
             <div class="form-group mb-4">
-                <label class="mb-1" for="language">Select a target language</label>
+                <h2>Target language</h2>
                 <select class="form-control" name="language" id="language">
                 <?php foreach ($languages as $key => $value) : ?>
                     <?php if ($key === 'en') : ?>
@@ -16,15 +56,16 @@
                 <?php endforeach ?>
                 </select>
             </div>
-            <div id="inputs-wrapper">
+            <div id="inputs-wrapper" class="mb-4">
+                <h2>Cards</h2>
                 <div class="form-group mb-4">
-                    <label class="mb-1" for="word-0">Word</label>
-                    <input class="form-control" type="text" name="word-0" id="word-0" placeholder="vorto">
+                    <input class="form-control" type="text" name="word-0" id="word-0" placeholder="Esperanta vorto">
                 </div>
             </div>
-            <button id="btn-add-input" class="btn btn-secondary">Add a word</button>
+            <button id="btn-add-input" class="btn btn-secondary">Add a card</button>
             <button type="submit" class="btn btn-primary">Build my deck</button>
         </form>
     </div>
     <?php include_once(__DIR__ . '/../Partials/Page/Js.phtml'); ?>
+    <?php include_once(__DIR__ . '/../Partials/Page/Footer.phtml'); ?>
 </body>

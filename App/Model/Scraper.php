@@ -34,7 +34,7 @@ class Scraper
         $httpCode = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
 
         if ($httpCode !== 200) {
-            throw new ScraperException($httpCode, 'Error: got code HTTP ' . $httpCode);
+            throw new ScraperException($httpCode, 'Error: Oops, I got an HTTP code. ' . $httpCode);
         }
 
         return $data;
@@ -61,12 +61,12 @@ class Scraper
             $word = trim($word);
             $translation = trim($translation);
         } else {
-            throw new ScraperException('Error: parsing HTML from Lernu.', $this->word);
+            throw new ScraperException('Error: Oops, I can’t parse the HTML received from Lernu!.', $this->word);
             return false;
         }
 
         if ($word !== $this->word) {
-            throw new ScraperException('Error: Lernu has trouble guessing the word.', $this->word);
+            throw new ScraperException('Error: Oops, I received several results from Lernu!.', $this->word);
             return false;
         }
 
