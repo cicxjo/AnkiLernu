@@ -3,18 +3,14 @@
 use App\Model\Entity\Card;
 use App\Model\Exception\ScraperException;
 ?>
-# Has autem provincias, quas Orontes ambiens amnis imosque pedes
-# Cassii montis illius celsi praetermeans funditur in Parthenium mare,
-# Gnaeus Pompeius superato Tigrane regnis Armeniorum abstractas
-# dicioni Romanae coniunxit.
-# Explain here how to import this deck into Anki.
-# See: https://docs.ankiweb.net/importing/text-files.html
-
+# If you do not know how to import this file, see:
+# https://docs.ankiweb.net/importing/text-files.html
 <?php foreach ($cards as $card) : ?>
-<?= PHP_EOL ?>
 <?php if ($card instanceof Card) : ?>
 <?= $card->getWord() . "\t" . $card->getTranslation() ?>
 <?php elseif ($card instanceof ScraperException) : ?>
 <?= '# ' . $card->getWord() . ' -- ' . $card->getMessage() ?>
 <?php endif ?>
 <?php endforeach ?>
+<?= PHP_EOL ?>
+# deck.tsv ends here
