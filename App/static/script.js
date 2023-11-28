@@ -1,5 +1,5 @@
 const website = location.protocol.concat('//').concat(location.host); // or location.origin
-const url = website.concat('/field/word');
+const url = website.concat('/template/word');
 
 const buttonAddInputElt = document.getElementById('btn-add-input');
 const inputsWrapperElt = document.getElementById('inputs-wrapper');
