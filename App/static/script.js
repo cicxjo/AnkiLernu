@@ -20,7 +20,14 @@ const fetchInsertNextInputElement = async () => {
   const text = await response.text();
   const parser = new DOMParser();
   const tmpDocument = parser.parseFromString(text, 'text/html');
-  const inputWrapperElt = tmpDocument.getElementsByClassName('input-wrapper')[0];
+  const inputWrapperElt = tmpDocument.getElementById('input-wrapper-'.concat(inputId));
+  const buttonDeleteInputElt = tmpDocument.getElementById('btn-delete-input-'.concat(inputId));
+
+  buttonDeleteInputElt.addEventListener('click', event => {
+    inputWrapperElt.remove(inputWrapperElt);
+    event.preventDefault();
+  });
+
   inputsWrapperElt.append(inputWrapperElt);
 };
 
