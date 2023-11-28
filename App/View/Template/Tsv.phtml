@@ -10,7 +10,6 @@ use App\Model\Exception\ScraperException;
 # Explain here how to import this deck into Anki.
 # See: https://docs.ankiweb.net/importing/text-files.html
 
-<?php if ($languageIsValid) : ?>
 <?php foreach ($cards as $card) : ?>
 <?= PHP_EOL ?>
 <?php if ($card instanceof Card) : ?>
@@ -19,6 +18,3 @@ use App\Model\Exception\ScraperException;
 <?= '# ' . $card->getWord() . ' -- ' . $card->getMessage() ?>
 <?php endif ?>
 <?php endforeach ?>
-<?php else : ?>
-# Error: Language is invalid!
-<?php endif ?>
