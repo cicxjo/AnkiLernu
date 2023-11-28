@@ -28,7 +28,7 @@ class Form
                      ->process($vars);
     }
 
-    public function fieldWord()
+    public function getWordField()
     {
         isset($_POST['id']) && ctype_digit($_POST['id'])
             ? $this->render->disableLayout()
