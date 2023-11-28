@@ -11,7 +11,7 @@ class HTTPError
     private Render $render;
     private array $codes = [
         400 => 'Bad Request',
-        404 => 'Not Found',
+        404 => 'Resource not Found',
         405 => 'Method Not Allowed',
     ];
 
@@ -25,6 +25,10 @@ class HTTPError
         http_response_code($code);
 
         $this->render->setTemplate('HTTPError')
-                     ->process(['title' => $code . ' - ' . $this->codes[$code]]);
+                     ->process([
+                        'title' => 'AnkiLernu' . ' — ' . $this->codes[$code],
+                        'h1' => 'AnkiLernu',
+                        'h2' => $this->codes[$code],
+                    ]);
     }
 }
