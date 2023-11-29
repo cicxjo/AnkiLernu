@@ -14,7 +14,7 @@ use App\Model\Scraper;
 use DateTime;
 use DateTimeZone;
 
-class Cards
+class Deck
 {
     private Render $render;
     private int $cacheTime = 30 * 24 * 60 * 60;
@@ -84,8 +84,8 @@ class Cards
             ));
 
             if (!empty($words)) {
-                header('Content-Type: text/plain');
-                // header('Content-Type: text/tab-separated-values');
+                // header('Content-Type: text/plain');
+                header('Content-Type: text/tab-separated-values');
 
                 $this->render->setTemplate('Tsv')->process([
                     'cards' => $this->getCardDeck($words, $language),

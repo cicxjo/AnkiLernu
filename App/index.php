@@ -7,7 +7,7 @@ App\Autoloader::register();
 
 $router = new App\Model\Routing\Router();
 $router->addRoute('/', ['GET'], ['App\Controller\Form', 'show'])
-       ->addRoute('/deck.tsv', ['POST'], ['App\Controller\Cards', 'generate'])
+       ->addRoute('/deck.tsv', ['POST'], ['App\Controller\Deck', 'generate'])
        ->addRoute('/template/word', ['POST'], ['App\Controller\Form', 'getWordField']);
 
 try {
