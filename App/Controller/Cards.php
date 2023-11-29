@@ -79,7 +79,7 @@ class Cards
             $language = $_POST['language'];
             $words = array_values(array_filter(
                 $_POST,
-                fn($key) => preg_match('/^word-[0-9]+$/', $key),
+                fn($key) => preg_match('/^word-[0-9]+$/', $key) && !empty($_POST[$key]),
                 ARRAY_FILTER_USE_KEY
             ));
 
