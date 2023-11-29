@@ -1,16 +1,11 @@
 <?php
 // phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-use App\Model\Entity\Card;
-use App\Model\Exception\ScraperException;
 ?>
 # If you do not know how to import this file, see:
 # https://docs.ankiweb.net/importing/text-files.html
+<?= PHP_EOL ?>
 <?php foreach ($cards as $card) : ?>
-<?php if ($card instanceof Card) : ?>
-<?= $card->getWord() . "\t" . $card->getTranslation() ?>
-<?php elseif ($card instanceof ScraperException) : ?>
-<?= '# ' . $card->getWord() . ' -- ' . $card->getMessage() ?>
-<?php endif ?>
+<?= $card . PHP_EOL ?>
 <?php endforeach ?>
 <?= PHP_EOL ?>
 # deck.tsv ends here

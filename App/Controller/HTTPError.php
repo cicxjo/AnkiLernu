@@ -26,9 +26,9 @@ class HTTPError
 
         $this->render->setTemplate('HTTPError')
                      ->process([
-                        'title' => 'AnkiLernu' . ' — ' . $this->codes[$code],
-                        'h1' => 'AnkiLernu',
-                        'h2' => $this->codes[$code],
-                    ]);
+                         'title' => 'AnkiLernu' . ' — ' . $this->codes[$code],
+                         'h1' => 'AnkiLernu',
+                         'h2' => $this->codes[$code],
+                     ]);
     }
 }

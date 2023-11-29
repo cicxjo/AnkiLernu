@@ -21,7 +21,7 @@ class Route
     {
         return $this->resource;
     }
- 
+
     public function getMethods(): array
     {
         return $this->methods;
