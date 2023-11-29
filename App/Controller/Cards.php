@@ -27,24 +27,22 @@ class Cards
     private function getCards(array $words, $language): array
     {
         $cardManager = new CardManager();
-
         $token = base64_encode(random_bytes(35));
         $scraper = Scraper::getInstance();
-
         $deck = [];
+        $utc = new DateTimeZone('UTC');
 
         foreach ($words as $word) {
             if (empty($word) || ctype_space($word)) {
                 continue;
-            } else {
-                $word = trim($word);
             }
 
+            $word = trim($word);
             $cardEntity = $cardManager->get($language, $word);
 
             try {
                 if ($cardEntity) {
-                    $currentDate = (new DateTime())->setTimezone(new DateTimeZone('UTC'))
+                    $currentDate = (new DateTime())->setTimezone($utc)
                                                    ->format('Y-m-d H:i:s');
                     $cardSyncDate = $cardEntity->getSyncAt();
 
