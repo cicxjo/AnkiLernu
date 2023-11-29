@@ -14,7 +14,7 @@ use App\Model\Scraper;
 use DateTime;
 use DateTimeZone;
 
-class Cards
+class Deck
 {
     private Render $render;
     private int $cacheTime = 30 * 24 * 60 * 60;
