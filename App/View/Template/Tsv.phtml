@@ -11,6 +11,6 @@ use App\Model\Exception\ScraperException;
 <?php elseif ($card instanceof ScraperException) : ?>
 <?= '# ' . $card->getWord() . ' -- ' . $card->getMessage() ?>
 <?php endif ?>
-<?php endforeach ?>
 <?= PHP_EOL ?>
+<?php endforeach ?>
 # deck.tsv ends here
