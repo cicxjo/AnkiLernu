@@ -51,7 +51,7 @@
                 </li>
             </ul>
         </div>
-        <form class="mb-4" action="/deck.tsv" method="post">
+        <form id="form" class="mb-4" action="/deck.tsv" method="post">
             <div class="form-group mb-4">
                 <h2>Target language</h2>
                 <select class="form-control" name="language" id="language">
@@ -67,11 +67,11 @@
             <div id="inputs-wrapper" class="mb-4">
                 <h2>Cards</h2>
                 <div class="form-group mb-4">
-                    <input class="form-control" type="text" name="word-0" id="word-0" placeholder="Esperanta vorto">
+                    <input class="form-control" type="text" name="word-0" id="word-0" placeholder="Esperanta vorto" required>
                 </div>
             </div>
             <button id="btn-add-input" class="btn btn-secondary">Add a card</button>
-            <button type="submit" class="btn btn-primary">Build my deck</button>
+            <button id="btn-submit" type="submit" class="btn btn-primary">Build my deck</button>
         </form>
     </div>
     <?php include_once(__DIR__ . '/../Partials/Page/Js.phtml'); ?>
