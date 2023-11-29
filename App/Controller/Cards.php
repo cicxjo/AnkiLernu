@@ -24,7 +24,12 @@ class Cards
         $this->render = new Render('Raw');
     }
 
-    private function getCards(array $words, string $language): array
+    private function formatCard(CardEntity $cardEntity): string
+    {
+        return $cardEntity->getWord() . "\t" . $cardEntity->getTranslation();
+    }
+
+    private function getCardDeck(array $words, string $language): array
     {
         $cardManager = new CardManager();
         $token = base64_encode(random_bytes(35));
@@ -59,9 +64,9 @@ class Cards
                                                     ->setTranslation($translation);
                     $cardManager->insert($language, $cardEntity);
                 }
-                $deck[] = $cardEntity;
+                $deck[] = $this->formatCard($cardEntity);
             } catch (ScraperException $exception) {
-                $deck[] = $exception;
+                $deck[] = '#' . $word . ' -- ' . $exception->getMessage();
             }
         }
 
@@ -83,7 +88,7 @@ class Cards
                 // header('Content-Type: text/tab-separated-values');
 
                 $this->render->setTemplate('Tsv')->process([
-                    'cards' => $this->getCards($words, $language),
+                    'cards' => $this->getCardDeck($words, $language),
                 ]);
 
                 return;
