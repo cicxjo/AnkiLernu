@@ -24,7 +24,7 @@ class Cards
         $this->render = new Render('Raw');
     }
 
-    private function getCards(array $words, $language): array
+    private function getCards(array $words, string $language): array
     {
         $cardManager = new CardManager();
         $token = base64_encode(random_bytes(35));
@@ -49,17 +49,17 @@ class Cards
                     if (strtotime($currentDate) > strtotime($cardSyncDate) + $this->cacheTime) {
                         $translation = $scraper->execute($word, $language, $token);
                         $cardEntity = (new CardEntity())->setWord($word)
-                                                    ->setTranslation($translation)
-                                                    ->setSyncAt($currentDate);
+                                                        ->setTranslation($translation)
+                                                        ->setSyncAt($currentDate);
                         $cardManager->update($cardEntity, $language);
                     }
                 } else {
                     $translation = $scraper->execute($word, $language, $token);
                     $cardEntity = (new CardEntity())->setWord($word)
-                                                ->setTranslation($translation);
+                                                    ->setTranslation($translation);
                     $cardManager->insert($language, $cardEntity);
                 }
-                    $deck[] = $cardEntity;
+                $deck[] = $cardEntity;
             } catch (ScraperException $exception) {
                 $deck[] = $exception;
             }

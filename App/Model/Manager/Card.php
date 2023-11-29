@@ -25,7 +25,10 @@ class Card
         SELECT * FROM {$this->table} WHERE word = :word AND country_code = :country_code
         HEREDOC;
 
-        $values = [ 'word' => $word, 'country_code' => $language ];
+        $values = [
+            'word' => $word,
+            'country_code' => $language,
+        ];
 
         try {
             $card = $this->pdoHandler->execute($sql, $values)
@@ -47,7 +50,7 @@ class Card
         $values = [
             'country_code' => $language,
             'word' => $entity->getWord(),
-            'translation' => $entity->getTranslation()
+            'translation' => $entity->getTranslation(),
         ];
 
         try {
