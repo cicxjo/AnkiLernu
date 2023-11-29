@@ -1,0 +1,18 @@
+AnkiLernu — Your daily Esperanto learning companion
+===================================================
+
+AnkiLernu is a proof of concept.
+
+It's a web interface for generating Esperanto flashcards for
+Anki. Vocabulary is retrieved from Lernu’s dictionary and cached to
+avoid flooding.
+
+AnkiLernu is free software distributed under GNU Affero General Public
+License v3.0 or later.
+
+Dependencies
+------------
+
+- PHP >= 8.2
+- cURL extension for PHP
+- MySQL extension for PHP
