@@ -17,7 +17,7 @@ use DateTimeZone;
 class Cards
 {
     private Render $render;
-    private int $cacheTime = 7 * 24 * 60 * 60;
+    private int $cacheTime = 30 * 24 * 60 * 60;
 
     public function __construct()
     {
