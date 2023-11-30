@@ -14,7 +14,7 @@ class Router
 
     public function __construct()
     {
-        $this->resource = $_SERVER['REQUEST_URI'];
+        $this->resource = explode('?', $_SERVER['REQUEST_URI'])[0];
         $this->method = $_SERVER['REQUEST_METHOD'];
     }
 
