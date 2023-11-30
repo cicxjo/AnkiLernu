@@ -16,3 +16,4 @@ Dependencies
 - PHP >= 8.2
 - cURL extension for PHP
 - MySQL extension for PHP
+- MySQL/MariaDB
