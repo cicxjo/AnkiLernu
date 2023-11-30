@@ -36,10 +36,10 @@ class Form
 
     public function getWordField(): void
     {
-        isset($_POST['id']) && ctype_digit($_POST['id'])
+        isset($_GET['id']) && ctype_digit($_GET['id'])
             ? $this->render->disableLayout()
                            ->setTemplate('WordField')
-                           ->process(['id' => $_POST['id']])
+                           ->process(['id' => $_GET['id']])
             : throw new HTTPException(400);
     }
 }
