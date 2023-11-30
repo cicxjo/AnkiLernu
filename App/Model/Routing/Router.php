@@ -33,10 +33,10 @@ class Router
                     $callable = $route->getCallable();
                     call_user_func([new $callable[0], $callable[1]]);
                     return;
-                } else {
-                    throw new HTTPException(405);
-                    return;
                 }
+
+                throw new HTTPException(405);
+                return;
             }
         }
 
