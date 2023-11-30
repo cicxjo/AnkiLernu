@@ -1,5 +1,4 @@
 const website = window.location.protocol.concat('//').concat(window.location.host) // or location.origin
-const url = website.concat('/template/word')
 
 const buttonAddInputElt = document.getElementById('btn-add-input')
 const inputsWrapperElt = document.getElementById('inputs-wrapper')
@@ -8,14 +7,9 @@ let inputId = 0
 const fetchInsertNextInputElement = async () => {
   inputId++
 
-  const data = new URLSearchParams()
-  data.append('id', inputId)
-
-  const payload = {
-    method: 'POST',
-    body: data
-  }
-
+  const data = new URLSearchParams({ id: inputId })
+  const payload = { method: 'GET' }
+  const url = website.concat('/template/word').concat('?').concat(data)
   const response = await fetch(url, payload)
   const text = await response.text()
   const tmpDocument = new window.DOMParser().parseFromString(text, 'text/html')

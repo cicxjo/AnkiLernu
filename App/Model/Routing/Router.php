@@ -14,7 +14,7 @@ class Router
 
     public function __construct()
     {
-        $this->resource = $_SERVER['REQUEST_URI'];
+        $this->resource = explode('?', $_SERVER['REQUEST_URI'])[0];
         $this->method = $_SERVER['REQUEST_METHOD'];
     }
 
@@ -33,10 +33,10 @@ class Router
                     $callable = $route->getCallable();
                     call_user_func([new $callable[0], $callable[1]]);
                     return;
-                } else {
-                    throw new HTTPException(405);
-                    return;
                 }
+
+                throw new HTTPException(405);
+                return;
             }
         }
 
