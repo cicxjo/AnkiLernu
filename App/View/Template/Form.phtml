@@ -1,0 +1,84 @@
+<?php $language = $selectedLanguage ?? 'en'; ?>
+<?php include_once(__DIR__ . '/../Partials/Page/Head.phtml'); ?>
+
+<body>
+<?php include_once(__DIR__ . '/../Partials/Page/Header.phtml'); ?>
+    <div class="container">
+        <div class="mb-4">
+            <p>
+                <b>AnkiLernu</b> is your daily <a href="https://en.wikipedia.org/wiki/Esperanto">Esperanto</a>
+                learning companion. You have started learning Esperanto and you find it tedious to build your
+                <a href="https://apps.ankiweb.net/">Anki</a> deck.
+                It retrieves vocabulary from <a href="https://lernu.net/vortaro">Lernu!’s dictionary</a>
+                and generates a deck for you.
+            </p>
+        </div>
+        <?php if ($statistics['translation'] > 0) : ?>
+        <div class="alert alert-info mb-4">
+            Currently, <?= $statistics['translation'] ?> translation<?= $statistics['translation'] > 1 ? 's' : '' ?>
+            and
+            <?= $statistics['country_code'] ?> language<?= $statistics['country_code'] > 1 ? 's' : '' ?>
+            are cached in the database.
+        </div>
+        <?php endif ?>
+        <div class="alert alert-light mb-4">
+            <ul>
+                <li>Generate cards for every new word you encounter.</li>
+                <li>Words and translations are cached on the server for 30 days.</li>
+            </ul>
+        </div>
+        <div class="alert alert-warning mb-4">
+            <ul>
+                <li>
+                    Target languages are limited to those supported by Lernu!.
+                </li>
+                <li>
+                    Not all words are in the dictionary. Dictionary completeness
+                    varies between languages.
+                    <ul>
+                        <li>
+                            If you ask for a word with a complex structure, it
+                            is likely that the word is not in the dictionary. Use the simplest form
+                            instead.
+                        </li>
+                        <li>
+                            If you ask for a conjugated verb, Lernu! will return the infinitive.
+                        </li>
+                        <li>
+                            In both cases, AnkiLernu will display an error.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Use whole words. If you ask for <i>amik</i>, Lernu! will return <i>amika</i>,
+                    <i>amike</i>, <i>amiki</i>, <i>amiko</i> and <i>amikaro</i>. AnkiLernu cannot guess
+                    which word you want.
+                </li>
+            </ul>
+        </div>
+        <form id="form" class="mb-4" action="/deck.tsv" method="post">
+            <div class="form-group mb-4">
+                <h2>Target language</h2>
+                <select class="form-control" name="language" id="language">
+                <?php foreach ($languages as $key => $value) : ?>
+                    <?php if ($key === 'en') : ?>
+                    <option value="<?= $key ?>" selected="selected"><?= $value ?></option>
+                    <?php else : ?>
+                    <option value="<?= $key ?>"><?= $value ?></option>
+                    <?php endif ?>
+                <?php endforeach ?>
+                </select>
+            </div>
+            <div id="inputs-wrapper" class="mb-4">
+                <h2>Cards</h2>
+                <div class="form-group mb-4">
+                    <input class="form-control" type="text" name="word-0" id="word-0" placeholder="Esperanta vorto" required>
+                </div>
+            </div>
+            <button id="btn-add-input" class="btn btn-secondary">Add a card</button>
+            <button id="btn-submit" type="submit" class="btn btn-primary">Build my deck</button>
+        </form>
+    </div>
+    <?php include_once(__DIR__ . '/../Partials/Page/Js.phtml'); ?>
+    <?php include_once(__DIR__ . '/../Partials/Page/Footer.phtml'); ?>
+</body>

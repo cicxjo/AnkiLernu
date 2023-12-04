@@ -1,0 +1,4 @@
+package-lock.json
+node_modules/
+App/static/custom.css
+App/static/custom.css.map
